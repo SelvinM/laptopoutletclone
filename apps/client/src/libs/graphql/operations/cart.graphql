@@ -1,0 +1,150 @@
+fragment CartFragment on Cart {
+	id
+	cartItems {
+		id
+		quantity
+		product {
+			id
+			listing {
+				longTitle
+				shortTitle
+				description
+			}
+			pricing {
+				price
+				discountPrice
+				shipping
+			}
+			quantity
+			condition
+			list
+			slug
+			applyDiscount
+			freeShipping
+			images {
+				url
+				placeholder
+			}
+		}
+	}
+	instaCheckout {
+		quantity
+		product {
+			id
+			listing {
+				longTitle
+				shortTitle
+				description
+			}
+			pricing {
+				price
+				discountPrice
+				shipping
+			}
+			quantity
+			condition
+			list
+			slug
+			applyDiscount
+			freeShipping
+			images {
+				url
+				placeholder
+			}
+		}
+		totalQuantity
+		itemsTotalPrice
+		shippingTotalPrice
+		totalPrice
+	}
+	totalQuantity
+	itemsTotalPrice
+	shippingTotalPrice
+	totalPrice
+}
+query GetCart($locale: Locale!) {
+	getCart(locale: $locale) {
+		...CartFragment
+	}
+}
+mutation ModifyCartItem($productid: ID!, $quantity: Int!, $locale: Locale!) {
+	modifyCartItem(
+		input: { productid: $productid, quantity: $quantity }
+		locale: $locale
+	) {
+		... on GeneralError {
+			message
+		}
+		... on ProductNotAvailableError {
+			message
+			reason
+		}
+		... on Cart {
+			...CartFragment
+		}
+	}
+}
+mutation ModifyInstaCheckout(
+	$productid: ID!
+	$quantity: Int!
+	$locale: Locale!
+) {
+	modifyInstaCheckout(
+		input: { productid: $productid, quantity: $quantity }
+		locale: $locale
+	) {
+		... on GeneralError {
+			message
+		}
+		... on ProductNotAvailableError {
+			message
+			reason
+		}
+		... on Cart {
+			...CartFragment
+		}
+	}
+}
+
+mutation RemoveInstaCheckout($locale: Locale!) {
+	removeInstaCheckout(locale: $locale) {
+		... on GeneralError {
+			message
+		}
+		... on ProductNotAvailableError {
+			message
+			reason
+		}
+		... on Cart {
+			...CartFragment
+		}
+	}
+}
+mutation AddCartItem($productid: ID!, $locale: Locale!) {
+	addCartItem(productid: $productid, locale: $locale) {
+		... on GeneralError {
+			message
+		}
+		... on ProductNotAvailableError {
+			message
+			reason
+		}
+		... on Cart {
+			...CartFragment
+		}
+	}
+}
+mutation SetInstaCheckout($productid: ID!, $locale: Locale!) {
+	setInstaCheckout(productid: $productid, locale: $locale) {
+		... on GeneralError {
+			message
+		}
+		... on ProductNotAvailableError {
+			message
+			reason
+		}
+		... on Cart {
+			...CartFragment
+		}
+	}
+}

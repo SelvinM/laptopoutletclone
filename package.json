@@ -1,0 +1,31 @@
+{
+	"private": true,
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"scripts": {
+		"client-dev": "yarn --cwd apps/client dev",
+		"admin-dev": "yarn --cwd apps/admin dev",
+		"client-build": "yarn --cwd apps/client build",
+		"admin-build": "yarn --cwd apps/admin build",
+		"client-start": "yarn --cwd apps/client start",
+		"admin-start": "yarn --cwd apps/admin start",
+		"client-codegen": "yarn --cwd apps/client codegen",
+		"admin-codegen": "yarn --cwd apps/admin codegen",
+		"clean": "yarn workspaces run clean",
+		"typecheck": "yarn workspaces run typecheck",
+		"deps:check": "yarn workspaces run deps:check --timeout 99999999",
+		"deps:update": "yarn workspaces run deps:update --timeout 99999999",
+		"new-version": "lerna version --conventional-commits --yes",
+		"diff": "lerna diff "
+	},
+	"devDependencies": {
+		"lerna": "^3.22.1"
+	},
+	"resolutions": {
+		"**/fs-capacitor": "6.2.0",
+		"**/graphql-upload": "^11.0.0"
+	},
+	"name": "laptopoutlet"
+}

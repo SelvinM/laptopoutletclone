@@ -1,0 +1,44 @@
+# Undefined type
+input UndefinedProductInput {
+	id: ID!
+	listing: ProductListingInput!
+	manufacturer: ProductManufacturerInput!
+	pricing: ProductPricingInput!
+	condition: ProductCondition!
+	images: [Upload]
+	list: Boolean!
+	applyDiscount: Boolean!
+	freeShipping: Boolean!
+	categories: [ID]!
+	quantity: Int!
+}
+input UpdateUndefinedProductInput {
+	id: ID!
+	listing: ProductListingInput!
+	manufacturer: ProductManufacturerInput!
+	pricing: ProductPricingInput!
+	condition: ProductCondition!
+	list: Boolean!
+	applyDiscount: Boolean!
+	freeShipping: Boolean!
+	categories: [ID]!
+	quantity: Int!
+}
+type UndefinedProduct implements Product {
+	id: ID!
+	listing: ProductListing!
+	images: [ProductImage!]
+	type: ProductType!
+	manufacturer: ProductManufacturer
+	pricing: ProductPricing!
+	retailCost: Float
+	condition: ProductCondition!
+	list: Boolean!
+	applyDiscount: Boolean!
+	slug: String!
+	freeShipping: Boolean!
+	categories: [Category]
+	quantity: Int!
+	createdAt: DateScalar!
+	updatedAt: DateScalar
+}

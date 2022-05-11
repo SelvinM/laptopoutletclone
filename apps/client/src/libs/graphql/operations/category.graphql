@@ -1,0 +1,24 @@
+fragment CategoryFragment on Category {
+	id
+	name
+	description
+	imageUrl
+	hasChildren
+	showInMenu
+	isOptional
+}
+
+query Categories($locale: Locale!) {
+	categories(locale: $locale) {
+		...CategoryFragment
+		children {
+			...CategoryFragment
+			children {
+				...CategoryFragment
+				children {
+					...CategoryFragment
+				}
+			}
+		}
+	}
+}

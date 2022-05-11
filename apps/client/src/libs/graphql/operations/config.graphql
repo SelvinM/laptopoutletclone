@@ -1,0 +1,18 @@
+query GetConfig($locale: Locale!) {
+	getConfig(locale: $locale) {
+		id
+		homeBanner {
+			title
+			message
+			buttonLabel
+			imageUrl
+			imagePlaceholder
+			href
+			as
+		}
+		socialLinks {
+			facebook
+			instagram
+		}
+	}
+}

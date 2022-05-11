@@ -1,0 +1,124 @@
+directive @auth on FIELD_DEFINITION
+directive @guest on FIELD_DEFINITION
+directive @superAdmin on FIELD_DEFINITION
+directive @merchandiseInventoryEditor on FIELD_DEFINITION
+directive @merchandiseInventoryReader on FIELD_DEFINITION
+directive @rawInventoryEditor on FIELD_DEFINITION
+directive @rawInventoryReader on FIELD_DEFINITION
+directive @ordersReader on FIELD_DEFINITION
+directive @ordersEditor on FIELD_DEFINITION
+directive @usersReader on FIELD_DEFINITION
+directive @usersEditor on FIELD_DEFINITION
+
+type Query {
+	me: Admin
+
+	getAdmins(options: GeneralQueryOptions): AdminsResult! @superAdmin
+	getAdmin(id: ID!): Admin @superAdmin
+
+	getUsers(options: UsersQueryOptions): UsersResult! @usersReader
+	getUser(id: ID!): User @usersReader
+
+	getCategories: [Category]! @auth
+	getCategory(id: ID!): Category @auth
+
+	getProducts(options: ProductsQueryOptions): ProductsResult!
+		@merchandiseInventoryReader
+	getProduct(id: ID!): Product @merchandiseInventoryReader
+	getDistinctBrands: [String!]! @merchandiseInventoryReader
+	getDistinctProductDetails(type: ProductType!): DistinctProductDetails
+		@merchandiseInventoryReader
+	verifyIdAvailability(id: ID!): Boolean! @merchandiseInventoryReader
+
+	getConfig: Config
+
+	getWarehouses(options: GeneralQueryOptions): WarehousesResult! @auth
+	getWarehouse(id: ID!): Warehouse @auth
+
+	getOrders(options: OrdersQueryOptions): OrdersResult! @ordersReader
+	getOrder(id: ID!): Order @ordersReader
+	getCancellations(options: GeneralQueryOptions): CancellationsResult!
+		@ordersReader
+	getCancellation(id: ID!): Cancellation @ordersReader
+}
+
+type Mutation {
+	#admin mutations
+	createAdmin(input: CreateAdminInput!): AdminResult! @superAdmin
+	deleteAdmin(id: ID!): Boolean @superAdmin
+	updateAdmin(input: UpdateAdminInput!): AdminResult! @superAdmin
+	loginAdmin(input: LoginInput!): AdminResult! @guest
+	logoutAdmin: Boolean!
+
+	#category mutations
+	createCategory(input: CategoryInput!): CategoryResult! @superAdmin
+	updateCategory(input: UpdateCategoryInput!): CategoryResult! @superAdmin
+	deleteCategory(id: ID!): Boolean @superAdmin
+	deleteCategoryImage(id: ID!): CategoryResult! @superAdmin
+	updateCategoryImage(input: UpdateCategoryImageInput!): CategoryResult
+		@superAdmin
+
+	#warehouse mutations
+	createWarehouse(input: WarehouseInput!): WarehouseResult! @superAdmin
+	updateWarehouse(input: UpdateWarehouseInput!): WarehouseResult! @superAdmin
+	deleteWarehouse(id: ID!): Boolean @superAdmin
+
+	#product mutations
+	deleteProduct(id: ID!): Boolean @merchandiseInventoryEditor
+	addProductImages(input: AddProductImagesInput!): Product
+		@merchandiseInventoryEditor
+	deleteProductImage(input: DeleteProductImageInput!): Product
+		@merchandiseInventoryEditor
+	createUndefinedProduct(input: UndefinedProductInput!): UndefinedProduct
+		@merchandiseInventoryEditor
+	updateUndefinedProduct(input: UpdateUndefinedProductInput!): UndefinedProduct
+		@merchandiseInventoryEditor
+	createComputerProduct(input: ComputerProductInput!): ComputerProduct
+		@merchandiseInventoryEditor
+	updateComputerProduct(input: UpdateComputerProductInput!): ComputerProduct
+		@merchandiseInventoryEditor
+
+	#orders mutations
+	capturePayment(orderid: ID!, shipmentid: ID!): Order @ordersEditor
+	reverseAuthorization(input: ReverseAuthorizationInput!): OrderResult  #Si retorna Order no se eliminó la orden, solo se modificó. Si retorna null la orden se eliminó porque ya no quedan productos en la orden
+		@ordersEditor
+	#others
+	updateConfig(input: UpdateConfigInput!): ConfigResult! @superAdmin
+}
+
+scalar DateScalar
+scalar Upload
+type GeneralError {
+	message: String!
+}
+
+input TranslationObjectInput {
+	es: String!
+	en: String
+}
+
+input GeneralQueryOptions {
+	skip: Int
+	limit: Int
+	sort: Sort
+}
+
+type TranslationObject {
+	es: String!
+	en: String
+}
+
+enum SortType {
+	asc
+	desc
+}
+
+enum SortCriteria {
+	createdAt
+	updatedAt
+}
+
+input Sort {
+	criteria: SortCriteria
+	type: SortType
+}

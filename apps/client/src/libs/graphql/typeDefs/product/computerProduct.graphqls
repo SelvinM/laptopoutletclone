@@ -1,0 +1,29 @@
+type LaptopDetails {
+	model: String
+	os: String
+	screenSize: String
+	hdd: String
+	ssd: String
+	ram: String
+	graphicsProcessor: String
+	processor: String
+}
+
+type ComputerProduct implements Product {
+	id: ID!
+	slug: String!
+	listing: ProductListing!
+	images: [ProductImage!]
+	type: ProductType!
+	manufacturer: ProductManufacturer
+	pricing: ProductPricing!
+	condition: ProductCondition!
+	list: Boolean!
+	applyDiscount: Boolean!
+	freeShipping: Boolean!
+	categories: [Category]
+	quantity: Int!
+	details: LaptopDetails!
+	createdAt: DateScalar!
+	updatedAt: DateScalar!
+}

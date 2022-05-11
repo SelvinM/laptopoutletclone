@@ -1,0 +1,52 @@
+type Point {
+	coordinates: [Float!]!
+}
+
+type Address {
+	addressLine1: String!
+	addressLine2: String
+	country: String!
+	province: String!
+	city: String!
+	zipcode: String!
+}
+
+input AddressInput {
+	addressLine1: String!
+	addressLine2: String
+	country: String!
+	province: String!
+	city: String!
+	zipcode: String!
+}
+
+type Warehouse {
+	id: ID!
+	name: String!
+	point: Point!
+	address: Address!
+	createdAt: DateScalar!
+	updatedAt: DateScalar!
+}
+
+input WarehouseInput {
+	name: String!
+	latitude: Float!
+	longitude: Float!
+	address: AddressInput!
+}
+
+input UpdateWarehouseInput {
+	id: ID!
+	name: String!
+	latitude: Float!
+	longitude: Float!
+	address: AddressInput!
+}
+
+union WarehouseResult = Warehouse | GeneralError
+
+type WarehousesResult {
+	total: Int!
+	warehouses: [Warehouse]!
+}

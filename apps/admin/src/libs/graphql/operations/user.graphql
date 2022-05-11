@@ -1,0 +1,52 @@
+fragment UserFragment on User {
+	id
+	name
+	surname
+	email
+	shippingAddress
+	addresses {
+		id
+		firstname
+		lastname
+		address {
+			addressLine1
+			addressLine2
+			country
+			province
+			city
+			zipcode
+		}
+		phone
+	}
+	phone
+	createdAt
+	updatedAt
+}
+
+query GetUser($id: ID!) {
+	getUser(id: $id) {
+		...UserFragment
+	}
+}
+
+query GetUsers(
+	$skip: Int
+	$limit: Int
+	$sortCriteria: SortCriteria
+	$sortType: SortType
+	$search: String
+) {
+	getUsers(
+		options: {
+			skip: $skip
+			limit: $limit
+			sort: { criteria: $sortCriteria, type: $sortType }
+			search: $search
+		}
+	) {
+		users {
+			...UserFragment
+		}
+		total
+	}
+}

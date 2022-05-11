@@ -1,0 +1,13 @@
+type Category {
+	id: ID!
+	name: String!
+	description: String!
+	imageUrl: String
+	showInMenu: Boolean!
+	isOptional: Boolean!
+	parent: String
+	children: [Category!]
+	hasChildren: Boolean!
+	createdAt: DateScalar!
+	updatedAt: DateScalar!
+}

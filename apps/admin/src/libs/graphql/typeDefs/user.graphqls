@@ -1,0 +1,33 @@
+type UserAddress {
+	id: ID!
+	firstname: String!
+	lastname: String!
+	address: Address!
+	phone: String!
+}
+
+type User {
+	id: ID!
+	name: String!
+	surname: String
+	email: String!
+	shippingAddress: String
+	addresses: [UserAddress]
+	phone: String
+	createdAt: DateScalar!
+	updatedAt: DateScalar!
+}
+
+union UserResult = User | GeneralError
+
+type UsersResult {
+	total: Int!
+	users: [User]!
+}
+
+input UsersQueryOptions {
+	skip: Int
+	limit: Int
+	sort: Sort
+	search: String
+}

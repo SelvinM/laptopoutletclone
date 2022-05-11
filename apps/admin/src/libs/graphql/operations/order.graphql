@@ -1,0 +1,102 @@
+fragment OrderFragment on Order {
+	id
+	shippingAddress {
+		id
+		firstname
+		lastname
+		address {
+			addressLine1
+			addressLine2
+			country
+			province
+			city
+			zipcode
+		}
+		phone
+	}
+	user {
+		id
+		name
+		surname
+		email
+		phone
+	}
+	shipments {
+		id
+		orderItems {
+			id
+			product
+			pricing {
+				price
+				discountPrice
+				shipping
+			}
+			title {
+				en
+				es
+			}
+			applyDiscount
+			condition
+			status
+			trackingNumber
+			imageUrl
+			imagePlaceholder
+			freeShipping
+			invoice {
+				totalQuantity
+				itemsTotalPrice
+				shippingTotalPrice
+				returned
+				totalPrice
+			}
+		}
+		status
+	}
+	invoice {
+		totalQuantity
+		itemsTotalPrice
+		shippingTotalPrice
+		returned
+		totalPrice
+	}
+	createdAt
+	updatedAt
+}
+
+query GetOrders($options: OrdersQueryOptions) {
+	getOrders(options: $options) {
+		orders {
+			...OrderFragment
+		}
+		total
+	}
+}
+
+query GetOrder($id: ID!) {
+	getOrder(id: $id) {
+		...OrderFragment
+	}
+}
+
+mutation CapturePayment($orderid: ID!, $shipmentid: ID!) {
+	capturePayment(orderid: $orderid, shipmentid: $shipmentid) {
+		...OrderFragment
+	}
+}
+
+mutation ReverseAuthorization(
+	$orderid: ID!
+	$shipmentid: ID!
+	$reason: String
+) {
+	reverseAuthorization(
+		input: { orderid: $orderid, shipmentid: $shipmentid, reason: $reason }
+	) {
+		... on Order {
+			...OrderFragment
+		}
+		... on GeneralError {
+			message
+		}
+	}
+}

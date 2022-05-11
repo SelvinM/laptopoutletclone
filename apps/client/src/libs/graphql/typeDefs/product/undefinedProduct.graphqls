@@ -1,0 +1,17 @@
+type UndefinedProduct implements Product {
+	id: ID!
+	slug: String!
+	listing: ProductListing!
+	images: [ProductImage!]
+	type: ProductType!
+	manufacturer: ProductManufacturer
+	pricing: ProductPricing!
+	condition: ProductCondition!
+	list: Boolean!
+	applyDiscount: Boolean!
+	freeShipping: Boolean!
+	categories: [Category]
+	quantity: Int!
+	createdAt: DateScalar!
+	updatedAt: DateScalar!
+}

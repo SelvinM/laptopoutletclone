@@ -1,0 +1,284 @@
+fragment UserFragment on User {
+	id
+	name
+	surname
+	email
+	addresses {
+		id
+		firstname
+		lastname
+		address {
+			addressLine1
+			addressLine2
+			country
+			province
+			city
+			zipcode
+		}
+		phone
+	}
+	shippingAddress
+	emailChangeRequest {
+		pendingEmail
+	}
+	locale
+	currency
+	notificationSettings {
+		deals {
+			email
+		}
+	}
+	phone
+}
+
+fragment UserAddressFragment on UserAddress {
+	id
+	firstname
+	lastname
+	address {
+		addressLine1
+		addressLine2
+		country
+		province
+		city
+		zipcode
+	}
+	phone
+}
+query Me {
+	me {
+		...UserFragment
+	}
+}
+
+mutation UpdateUserEmailRequest($pendingEmail: String!, $locale: Locale!) {
+	updateUserEmailRequest(
+		input: { pendingEmail: $pendingEmail }
+		locale: $locale
+	) {
+		... on User {
+			id
+			emailChangeRequest {
+				pendingEmail
+			}
+		}
+		... on GeneralError {
+			message
+		}
+	}
+}
+
+mutation CancelEmailChangeRequest($locale: Locale!) {
+	cancelEmailChangeRequest(locale: $locale) {
+		... on User {
+			id
+			email
+			emailChangeRequest {
+				pendingEmail
+			}
+		}
+		... on GeneralError {
+			message
+		}
+	}
+}
+
+mutation UpdateUserEmail($code: String!, $locale: Locale!) {
+	updateUserEmail(input: { code: $code }, locale: $locale) {
+		... on User {
+			id
+			email
+			emailChangeRequest {
+				pendingEmail
+			}
+		}
+		... on GeneralError {
+			message
+		}
+	}
+}
+
+mutation UpdateUserPhone($phone: String!, $locale: Locale!) {
+	updateUserPhone(input: { phone: $phone }, locale: $locale) {
+		... on User {
+			id
+			phone
+		}
+		... on GeneralError {
+			message
+		}
+	}
+}
+
+mutation UpdateUserName($name: String!, $surname: String!, $locale: Locale!) {
+	updateUserName(input: { name: $name, surname: $surname }, locale: $locale) {
+		... on User {
+			id
+			name
+			surname
+		}
+		... on GeneralError {
+			message
+		}
+	}
+}
+
+mutation UpdateUserLocale($locale: Locale!) {
+	updateUserLocale(input: { locale: $locale }, locale: $locale) {
+		... on User {
+			id
+			locale
+		}
+		... on GeneralError {
+			message
+		}
+	}
+}
+
+mutation UpdateUserCurrency($currency: Currency!, $locale: Locale!) {
+	updateUserCurrency(input: { currency: $currency }, locale: $locale) {
+		... on User {
+			id
+			currency
+		}
+		... on GeneralError {
+			message
+		}
+	}
+}
+
+mutation UpdateUserNotificationSettings(
+	$emailDeals: Boolean!
+	$locale: Locale!
+) {
+	updateUserNotificationSettings(
+		input: { deals: { email: $emailDeals } }
+		locale: $locale
+	) {
+		... on User {
+			id
+			notificationSettings {
+				deals {
+					email
+				}
+			}
+		}
+		... on GeneralError {
+			message
+		}
+	}
+}
+
+mutation CreateUserAddress(
+	$firstname: String!
+	$lastname: String!
+	$addressLine1: String!
+	$addressLine2: String
+	$country: String!
+	$province: String!
+	$city: String!
+	$zipcode: String!
+	$phone: String!
+	$locale: Locale!
+) {
+	createUserAddress(
+		input: {
+			firstname: $firstname
+			lastname: $lastname
+			address: {
+				addressLine1: $addressLine1
+				addressLine2: $addressLine2
+				country: $country
+				province: $province
+				city: $city
+				zipcode: $zipcode
+			}
+			phone: $phone
+		}
+		locale: $locale
+	) {
+		... on User {
+			id
+			addresses {
+				...UserAddressFragment
+			}
+			shippingAddress
+		}
+		... on GeneralError {
+			message
+		}
+	}
+}
+mutation UpdateUserAddress(
+	$id: ID!
+	$selectAddress: Boolean
+	$firstname: String!
+	$lastname: String!
+	$addressLine1: String!
+	$addressLine2: String
+	$country: String!
+	$province: String!
+	$city: String!
+	$zipcode: String!
+	$phone: String!
+	$locale: Locale!
+) {
+	updateUserAddress(
+		input: {
+			id: $id
+			selectAddress: $selectAddress
+			firstname: $firstname
+			lastname: $lastname
+			address: {
+				addressLine1: $addressLine1
+				addressLine2: $addressLine2
+				country: $country
+				province: $province
+				city: $city
+				zipcode: $zipcode
+			}
+			phone: $phone
+		}
+		locale: $locale
+	) {
+		... on User {
+			id
+			addresses {
+				...UserAddressFragment
+			}
+			shippingAddress
+		}
+		... on GeneralError {
+			message
+		}
+	}
+}
+mutation DeleteUserAddress($addressID: ID!, $locale: Locale!) {
+	deleteUserAddress(addressID: $addressID, locale: $locale) {
+		... on User {
+			id
+			addresses {
+				...UserAddressFragment
+			}
+			shippingAddress
+		}
+		... on GeneralError {
+			message
+		}
+	}
+}
+
+mutation SelectUserAddress($addressID: ID!, $locale: Locale!) {
+	selectUserAddress(addressID: $addressID, locale: $locale) {
+		... on User {
+			id
+			addresses {
+				...UserAddressFragment
+			}
+			shippingAddress
+		}
+		... on GeneralError {
+			message
+		}
+	}
+}

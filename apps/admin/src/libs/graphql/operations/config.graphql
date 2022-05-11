@@ -1,0 +1,46 @@
+fragment ConfigFragment on Config {
+	id
+	homeBanner {
+		title {
+			es
+			en
+		}
+		message {
+			es
+			en
+		}
+		buttonLabel {
+			es
+			en
+		}
+		href
+		as
+		imageUrl
+	}
+	socialLinks {
+		facebook
+		instagram
+	}
+	createdAt
+	updatedAt
+}
+
+query GetConfig {
+	getConfig {
+		...ConfigFragment
+	}
+}
+
+mutation UpdateConfig(
+	$homeBanner: HomeBannerInput!
+	$socialLinks: SocialLinksInput!
+) {
+	updateConfig(input: { homeBanner: $homeBanner, socialLinks: $socialLinks }) {
+		... on Config {
+			...ConfigFragment
+		}
+		... on GeneralError {
+			message
+		}
+	}
+}

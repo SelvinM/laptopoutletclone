@@ -1,0 +1,43 @@
+type HomeBanner {
+	title: TranslationObject
+	message: TranslationObject
+	buttonLabel: TranslationObject
+	imageUrl: String
+	imagePlaceholder: String
+	href: String
+	as: String
+}
+
+type SocialLinks {
+	facebook: String
+	instagram: String
+}
+
+type Config {
+	id: ID!
+	homeBanner: HomeBanner!
+	socialLinks: SocialLinks
+	createdAt: DateScalar!
+	updatedAt: DateScalar!
+}
+
+input HomeBannerInput {
+	title: TranslationObjectInput!
+	message: TranslationObjectInput!
+	buttonLabel: TranslationObjectInput!
+	href: String!
+	as: String
+	upload: Upload
+}
+
+input SocialLinksInput {
+	facebook: String
+	instagram: String
+}
+
+input UpdateConfigInput {
+	homeBanner: HomeBannerInput!
+	socialLinks: SocialLinksInput
+}
+
+union ConfigResult = Config | GeneralError

@@ -1,0 +1,22 @@
+type HomeBanner {
+	title: String
+	message: String
+	buttonLabel: String
+	imageUrl: String
+	imagePlaceholder: String
+	href: String
+	as: String
+}
+
+type SocialLinks {
+	facebook: String
+	instagram: String
+}
+
+type Config {
+	id: ID!
+	homeBanner: HomeBanner!
+	socialLinks: SocialLinks
+	createdAt: DateScalar!
+	updatedAt: DateScalar!
+}

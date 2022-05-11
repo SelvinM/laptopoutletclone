@@ -1,0 +1,82 @@
+## Laptop type
+type ComputerDetails {
+	model: String
+	os: String
+	screenSize: String
+	hdd: String
+	ssd: String
+	ram: String
+	graphicsProcessor: String
+	processor: String
+}
+
+input ComputerDetailsInput {
+	model: String
+	os: String
+	screenSize: String
+	hdd: String
+	ssd: String
+	ram: String
+	graphicsProcessor: String
+	processor: String
+}
+
+type ComputerProduct implements Product {
+	id: ID!
+	listing: ProductListing!
+	images: [ProductImage!]
+	type: ProductType!
+	manufacturer: ProductManufacturer
+	pricing: ProductPricing!
+	retailCost: Float
+	condition: ProductCondition!
+	list: Boolean!
+	applyDiscount: Boolean!
+	freeShipping: Boolean!
+	categories: [Category]!
+	slug: String!
+	quantity: Int!
+	details: ComputerDetails!
+	createdAt: DateScalar!
+	updatedAt: DateScalar
+}
+
+input ComputerProductInput {
+	id: ID!
+	listing: ProductListingInput!
+	manufacturer: ProductManufacturerInput!
+	pricing: ProductPricingInput!
+	condition: ProductCondition!
+	images: [Upload]
+	list: Boolean!
+	applyDiscount: Boolean!
+	freeShipping: Boolean!
+	categories: [ID]!
+	quantity: Int!
+	details: ComputerDetailsInput!
+}
+
+input UpdateComputerProductInput {
+	id: ID!
+	listing: ProductListingInput!
+	manufacturer: ProductManufacturerInput!
+	pricing: ProductPricingInput!
+	condition: ProductCondition!
+	list: Boolean!
+	applyDiscount: Boolean!
+	freeShipping: Boolean!
+	categories: [ID]!
+	quantity: Int!
+	details: ComputerDetailsInput!
+}
+
+type DistinctComputerProductDetails {
+	model: [String]!
+	os: [String]!
+	screenSize: [String]!
+	hdd: [String]!
+	ssd: [String]!
+	ram: [String]!
+	graphicsProcessor: [String]!
+	processor: [String]!
+}

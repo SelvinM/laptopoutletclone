@@ -1,0 +1,43 @@
+input ModifyCartItemInput {
+	productid: ID!
+	quantity: Int!
+}
+
+union CartResult = Cart | GeneralError | ProductNotAvailableError
+
+type CartItem {
+	id: ID!
+	product: Product
+	quantity: Int!
+}
+
+type InstaCheckout {
+	product: Product
+	quantity: Int!
+	totalQuantity: Int!
+	itemsTotalPrice: Float!
+	shippingTotalPrice: Float!
+	totalPrice: Float!
+}
+
+type Cart {
+	id: ID!
+	cartItems: [CartItem]!
+	instaCheckout: InstaCheckout
+	totalQuantity: Int!
+	itemsTotalPrice: Float!
+	shippingTotalPrice: Float!
+	totalPrice: Float!
+	createdAt: DateScalar!
+	updatedAt: DateScalar!
+}
+
+enum ProductNotAvailableReasons {
+	outOfStock
+	maxQuantityError
+}
+
+type ProductNotAvailableError {
+	message: String!
+	reason: ProductNotAvailableReasons!
+}

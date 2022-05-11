@@ -1,0 +1,110 @@
+union UserResult = User | GeneralError
+
+enum CardType {
+	credit
+	debit
+}
+enum CardBrand {
+	visa
+	mastercard
+}
+type Address {
+	addressLine1: String!
+	addressLine2: String
+	country: String!
+	province: String!
+	city: String!
+	zipcode: String!
+}
+
+input AddressInput {
+	addressLine1: String!
+	addressLine2: String
+	country: String!
+	province: String!
+	city: String!
+	zipcode: String!
+}
+
+input LocaleInput {
+	locale: Locale!
+}
+input CurrencyInput {
+	currency: Currency!
+}
+
+input EmailConfirmationCodeInput {
+	code: String!
+}
+input NotificationInput {
+	email: Boolean!
+}
+input NotficationSettingsInput {
+	deals: NotificationInput!
+}
+
+input UpdateUserEmailRequestInput {
+	pendingEmail: String!
+}
+
+type EmailChangeRequest {
+	pendingEmail: String!
+}
+
+input PhoneInput {
+	phone: String!
+}
+
+input NameInput {
+	name: String!
+	surname: String!
+}
+
+type NotificationSetting {
+	email: Boolean!
+}
+
+type NotificationSettings {
+	deals: NotificationSetting!
+}
+
+type UserAddress {
+	id: ID!
+	firstname: String!
+	lastname: String!
+	address: Address!
+	phone: String!
+}
+
+input UserAddressInput {
+	firstname: String!
+	lastname: String!
+	address: AddressInput!
+	phone: String!
+}
+
+input UpdateUserAddressInput {
+	id: ID!
+	selectAddress: Boolean
+	firstname: String!
+	lastname: String!
+	address: AddressInput!
+	phone: String!
+}
+
+type User {
+	id: ID!
+	name: String!
+	surname: String
+	email: String!
+	emailChangeRequest: EmailChangeRequest
+	shippingAddress: String
+	defaultCard: String
+	locale: String
+	currency: String
+	addresses: [UserAddress]
+	notificationSettings: NotificationSettings
+	phone: String
+	createdAt: DateScalar!
+	updatedAt: DateScalar!
+}

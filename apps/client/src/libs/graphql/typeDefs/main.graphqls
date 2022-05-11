@@ -1,0 +1,89 @@
+directive @auth on FIELD_DEFINITION
+directive @guest on FIELD_DEFINITION
+type Query {
+	categories(id: ID, locale: Locale!): [Category]!
+	me: User
+	getProducts(options: ProductsOptions, locale: Locale!): ProductsResult!
+	getProduct(slug: String!, locale: Locale!): Product
+	getCart(locale: Locale!): Cart
+	getConfig(locale: Locale!): Config
+	getPaymentCards: PaymentCards
+	getOrders(options: OrdersOptions, locale: Locale!): OrdersResult
+	getOrder(id: ID!, locale: Locale!): Order
+}
+
+type Mutation {
+	# CLIENT RELATED
+	updateUserEmailRequest(
+		input: UpdateUserEmailRequestInput!
+		locale: Locale!
+	): UserResult! @auth
+	cancelEmailChangeRequest(locale: Locale!): UserResult! @auth
+	updateUserEmail(
+		input: EmailConfirmationCodeInput!
+		locale: Locale!
+	): UserResult! @auth
+	updateUserPhone(input: PhoneInput!, locale: Locale!): UserResult! @auth
+	updateUserName(input: NameInput!, locale: Locale!): UserResult! @auth
+	updateUserLocale(input: LocaleInput!, locale: Locale!): UserResult!
+	updateUserCurrency(input: CurrencyInput!, locale: Locale!): UserResult! @auth
+	updateUserNotificationSettings(
+		input: NotficationSettingsInput!
+		locale: Locale!
+	): UserResult! @auth
+	#Cart related
+	modifyCartItem(input: ModifyCartItemInput!, locale: Locale!): CartResult!
+		@auth
+	addCartItem(productid: ID!, locale: Locale!): CartResult! @auth
+	setInstaCheckout(productid: ID!, locale: Locale!): CartResult! @auth
+	modifyInstaCheckout(
+		input: ModifyCartItemInput!
+		locale: Locale!
+	): CartResult! @auth
+	removeInstaCheckout(locale: Locale!): CartResult! @auth
+	createUserAddress(input: UserAddressInput!, locale: Locale!): UserResult!
+		@auth
+	updateUserAddress(
+		input: UpdateUserAddressInput!
+		locale: Locale!
+	): UserResult! @auth
+	selectUserAddress(addressID: ID!, locale: Locale!): UserResult! @auth
+	deleteUserAddress(addressID: ID!, locale: Locale!): UserResult! @auth
+	placeOrder(
+		ipAddress: String!
+		fingerprintSessionId: String!
+		locale: Locale!
+	): PlaceOrderResult! @auth
+	addPaymentCard(
+		input: PaymentCardInput!
+		locale: Locale!
+	): PaymentCardsResult! @auth
+	deletePaymentCard(paymentCardID: ID!, locale: Locale!): PaymentCardsResult!
+	updatePaymentCard(
+		input: UpdatePaymentCardInput!
+		locale: Locale!
+	): PaymentCardsResult! @auth
+	changeDefaultPaymentCard(
+		paymentCardID: ID!
+		locale: Locale!
+	): PaymentCardsResult! @auth
+}
+
+scalar DateScalar
+
+input InputID {
+	id: ID!
+}
+
+enum Currency {
+	HNL
+	USD
+}
+enum Locale {
+	es
+	en
+}
+
+type GeneralError {
+	message: String!
+}

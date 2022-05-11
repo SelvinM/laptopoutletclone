@@ -1,0 +1,166 @@
+fragment CartFragment on Cart {
+	id
+	cartItems {
+		id
+		quantity
+		product {
+			id
+			listing {
+				longTitle
+				shortTitle
+				description
+			}
+			pricing {
+				price
+				discountPrice
+				shipping
+			}
+			quantity
+			condition
+			list
+			slug
+			applyDiscount
+			freeShipping
+			images {
+				url
+				placeholder
+			}
+		}
+	}
+	instaCheckout {
+		quantity
+		product {
+			id
+			listing {
+				longTitle
+				shortTitle
+				description
+			}
+			pricing {
+				price
+				discountPrice
+				shipping
+			}
+			quantity
+			condition
+			list
+			slug
+			applyDiscount
+			freeShipping
+			images {
+				url
+				placeholder
+			}
+		}
+		totalQuantity
+		itemsTotalPrice
+		shippingTotalPrice
+		totalPrice
+	}
+	totalQuantity
+	itemsTotalPrice
+	shippingTotalPrice
+	totalPrice
+}
+
+fragment OrderFragment on Order {
+	id
+	paymentMethod {
+		name
+		card {
+			snippet
+			type
+			brand
+		}
+	}
+	shippingAddress {
+		id
+		firstname
+		lastname
+		address {
+			addressLine1
+			addressLine2
+			country
+			province
+			city
+			zipcode
+		}
+		phone
+	}
+	shipments {
+		id
+		orderItems {
+			id
+			product
+			pricing {
+				price
+				discountPrice
+				shipping
+			}
+			title
+			applyDiscount
+			condition
+			status
+			trackingNumber
+			slug
+			imageUrl
+			freeShipping
+			invoice {
+				totalQuantity
+				itemsTotalPrice
+				shippingTotalPrice
+				returned
+				totalPrice
+			}
+		}
+		status
+	}
+	invoice {
+		totalQuantity
+		itemsTotalPrice
+		shippingTotalPrice
+		returned
+		totalPrice
+	}
+	createdAt
+	updatedAt
+}
+
+mutation PlaceOrder(
+	$ipAddress: String!
+	$fingerprintSessionId: String!
+	$locale: Locale!
+) {
+	placeOrder(
+		ipAddress: $ipAddress
+		fingerprintSessionId: $fingerprintSessionId
+		locale: $locale
+	) {
+		... on GeneralError {
+			message
+		}
+		... on OrderResult {
+			order {
+				...OrderFragment
+			}
+			cart {
+				...CartFragment
+			}
+		}
+	}
+}
+
+query GetOrders($options: OrdersOptions, $locale: Locale!) {
+	getOrders(options: $options, locale: $locale) {
+		orders {
+			...OrderFragment
+		}
+		total
+	}
+}
+
+query GetOrder($id: ID!, $locale: Locale!) {
+	getOrder(id: $id, locale: $locale) {
+		...OrderFragment
+	}
+}

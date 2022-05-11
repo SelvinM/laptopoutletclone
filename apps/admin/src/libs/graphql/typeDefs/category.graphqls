@@ -1,0 +1,36 @@
+type Category {
+  id: ID!
+  name: TranslationObject!
+  description: TranslationObject!
+  showInMenu: Boolean!
+  isOptional: Boolean!
+  imageUrl: String
+  parent: String
+  children: [Category]
+  hasChildren: Boolean!
+  createdAt: DateScalar!
+  updatedAt: DateScalar!
+}
+
+input CategoryInput {
+  id: ID!
+  name: TranslationObjectInput!
+  description: TranslationObjectInput!
+  showInMenu: Boolean
+  image: Upload
+  parent: ID
+}
+
+input UpdateCategoryInput {
+  name: TranslationObjectInput!
+  description: TranslationObjectInput!
+  showInMenu: Boolean!
+  id: ID!
+}
+
+input UpdateCategoryImageInput {
+  id: ID!
+  image: Upload!
+}
+
+union CategoryResult = Category | GeneralError

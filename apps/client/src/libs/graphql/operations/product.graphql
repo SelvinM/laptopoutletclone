@@ -1,0 +1,169 @@
+query GetProducts(
+	$getTotal: Boolean
+	$getFacets: Boolean
+	$skip: Int
+	$limit: Int
+	$sort: ProductSort
+	$applyDiscount: Boolean
+	$freeShipping: Boolean
+	$type: [ProductType]
+	$minPrice: Float
+	$maxPrice: Float
+	$categories: [ID]
+	$search: String
+	$excludeItem: ID
+	$brand: [String]
+	$condition: [ProductCondition]
+	$screenSize: [String]
+	$hdd: [String]
+	$ssd: [String]
+	$ram: [String]
+	$graphicsProcessor: [String]
+	$processor: [String]
+	$locale: Locale!
+) {
+	getProducts(
+		options: {
+			getTotal: $getTotal
+			getFacets: $getFacets
+			skip: $skip
+			limit: $limit
+			sort: $sort
+			applyDiscount: $applyDiscount
+			freeShipping: $freeShipping
+			minPrice: $minPrice
+			maxPrice: $maxPrice
+			categories: $categories
+			type: $type
+			search: $search
+			excludeItem: $excludeItem
+			brand: $brand
+			condition: $condition
+			screenSize: $screenSize
+			hdd: $hdd
+			ssd: $ssd
+			ram: $ram
+			graphicsProcessor: $graphicsProcessor
+			processor: $processor
+		}
+		locale: $locale
+	) {
+		total
+		facets {
+			applyDiscount {
+				title
+				count
+			}
+			freeShipping {
+				title
+				count
+			}
+			brand {
+				title
+				count
+			}
+			condition {
+				title
+				count
+			}
+			screenSize {
+				title
+				count
+			}
+			hdd {
+				title
+				count
+			}
+			ssd {
+				title
+				count
+			}
+			ram {
+				title
+				count
+			}
+			graphicsProcessor {
+				title
+				count
+			}
+			processor {
+				title
+				count
+			}
+		}
+		products {
+			id
+			slug
+			listing {
+				longTitle
+			}
+			pricing {
+				price
+				discountPrice
+				shipping
+			}
+			manufacturer {
+				brand
+			}
+			applyDiscount
+			freeShipping
+			condition
+			images {
+				url
+				placeholder
+			}
+		}
+	}
+}
+
+query GetProduct($slug: String!, $locale: Locale!) {
+	getProduct(slug: $slug, locale: $locale) {
+		id
+		slug
+		listing {
+			longTitle
+			shortTitle
+			description
+		}
+		pricing {
+			price
+			discountPrice
+			shipping
+		}
+		manufacturer {
+			brand
+			model
+		}
+		applyDiscount
+		freeShipping
+		condition
+		images {
+			url
+			placeholder
+		}
+		categories {
+			id
+			name
+			showInMenu
+			parent
+			hasChildren
+		}
+		list
+		type
+		applyDiscount
+		freeShipping
+		quantity
+		... on ComputerProduct {
+			details {
+				model
+				os
+				screenSize
+				hdd
+				ssd
+				ram
+				graphicsProcessor
+				processor
+			}
+		}
+	}
+}

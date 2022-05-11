@@ -1,0 +1,70 @@
+fragment PaymentCardsFragment on PaymentCards {
+	paymentCards {
+		id
+		type
+		brand
+		expiryMonth
+		expiryYear
+		snippet
+		nameOnCard
+		billingAddress {
+			addressLine1
+			addressLine2
+			country
+			province
+			city
+			zipcode
+		}
+	}
+	defaultCard
+}
+
+query GetPaymentCards {
+	getPaymentCards {
+		...PaymentCardsFragment
+	}
+}
+
+mutation addPaymentCard($input: PaymentCardInput!, $locale: Locale!) {
+	addPaymentCard(input: $input, locale: $locale) {
+		... on GeneralError {
+			message
+		}
+		... on PaymentCards {
+			...PaymentCardsFragment
+		}
+	}
+}
+
+mutation UpdatePaymentCard($input: UpdatePaymentCardInput!, $locale: Locale!) {
+	updatePaymentCard(input: $input, locale: $locale) {
+		... on GeneralError {
+			message
+		}
+		... on PaymentCards {
+			...PaymentCardsFragment
+		}
+	}
+}
+
+mutation DeletePaymentCard($paymentCardID: ID!, $locale: Locale!) {
+	deletePaymentCard(paymentCardID: $paymentCardID, locale: $locale) {
+		... on GeneralError {
+			message
+		}
+		... on PaymentCards {
+			...PaymentCardsFragment
+		}
+	}
+}
+
+mutation changeDefaultPaymentCard($paymentCardID: ID!, $locale: Locale!) {
+	changeDefaultPaymentCard(paymentCardID: $paymentCardID, locale: $locale) {
+		... on GeneralError {
+			message
+		}
+		... on PaymentCards {
+			...PaymentCardsFragment
+		}
+	}
+}

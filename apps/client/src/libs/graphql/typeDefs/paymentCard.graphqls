@@ -1,0 +1,36 @@
+type PaymentCard {
+	id: ID!
+	type: CardType!
+	brand: CardBrand!
+	expiryMonth: String!
+	expiryYear: String!
+	snippet: String!
+	nameOnCard: String!
+	billingAddress: Address!
+}
+
+input PaymentCardInput {
+	makeDefault: Boolean!
+	cardNumber: String!
+	# securityCode: String!
+	expiryMonth: String!
+	expiryYear: String!
+	nameOnCard: String!
+	billingAddress: AddressInput!
+}
+input UpdatePaymentCardInput {
+	id: ID!
+	makeDefault: Boolean!
+	# securityCode: String!
+	expiryMonth: String!
+	expiryYear: String!
+	nameOnCard: String!
+	billingAddress: AddressInput!
+}
+
+type PaymentCards {
+	paymentCards: [PaymentCard]!
+	defaultCard: String
+}
+
+union PaymentCardsResult = PaymentCards | GeneralError

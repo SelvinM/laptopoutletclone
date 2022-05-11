@@ -1,0 +1,85 @@
+enum OrderItemStatus {
+	normal
+	returned
+	partialReturn
+}
+
+enum ShipmentStatus {
+	pending
+	shipped
+}
+
+type Invoice {
+	totalQuantity: Float!
+	itemsTotalPrice: Float!
+	shippingTotalPrice: Float!
+	returned: Float
+	totalPrice: Float!
+}
+
+type OrderItem {
+	id: ID!
+	product: String
+	title: TranslationObject!
+	pricing: ProductPricing!
+	applyDiscount: Boolean!
+	condition: ProductCondition!
+	status: OrderItemStatus!
+	trackingNumber: String
+	imageUrl: String
+	imagePlaceholder: String
+	freeShipping: Boolean!
+	invoice: Invoice!
+}
+
+type Shipment {
+	id: ID!
+	orderItems: [OrderItem!]!
+	status: ShipmentStatus!
+}
+
+type Order {
+	id: ID!
+	user: User
+	shippingAddress: UserAddress!
+	shipments: [Shipment!]!
+	invoice: Invoice!
+	createdAt: DateScalar!
+	updatedAt: DateScalar!
+}
+
+input OrdersQueryOptions {
+	shipmentStatus: [ShipmentStatus]
+	skip: Int
+	limit: Int
+	sort: Sort
+}
+
+type OrdersResult {
+	total: Int!
+	orders: [Order]!
+}
+
+input ReverseAuthorizationInput {
+	orderid: ID!
+	shipmentid: ID!
+	reason: String
+}
+
+union OrderResult = Order | GeneralError
+
+type Cancellation {
+	id: ID!
+	order: ID!
+	user: User
+	shipmentid: String!
+	orderItems: [OrderItem!]!
+	cancelledBy: String
+	createdAt: DateScalar!
+	updatedAt: DateScalar!
+}
+
+type CancellationsResult {
+	total: Int!
+	cancellations: [Cancellation]!
+}

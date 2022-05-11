@@ -1,0 +1,50 @@
+enum Role {
+	SUPER_ADMIN
+	RAW_INVENTORY_EDITOR
+	RAW_INVENTORY_READER
+	MERCHANDISE_INVENTORY_EDITOR
+	MERCHANDISE_INVENTORY_READER
+	ORDERS_READER
+	ORDERS_EDITOR
+	USERS_READER
+	USERS_EDITOR
+	FINANCE_READER
+}
+
+input CreateAdminInput {
+	firstname: String!
+	lastname: String!
+	email: String!
+	password: String!
+	roles: [Role!]!
+}
+
+input UpdateAdminInput {
+	id: ID!
+	firstname: String!
+	lastname: String!
+	email: String!
+	roles: [Role!]!
+}
+
+input LoginInput {
+	email: String!
+	password: String!
+}
+
+union AdminResult = Admin | GeneralError
+
+type Admin {
+	id: ID!
+	firstname: String!
+	lastname: String!
+	roles: [Role!]!
+	email: String!
+	createdAt: DateScalar!
+	updatedAt: DateScalar
+}
+
+type AdminsResult {
+	total: Int!
+	admins: [Admin]!
+}

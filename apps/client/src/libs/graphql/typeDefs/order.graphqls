@@ -1,0 +1,83 @@
+enum OrderItemStatus {
+	normal
+	returned
+	partialReturn
+}
+
+enum ShipmentStatus {
+	pending
+	shipped
+}
+
+type Invoice {
+	totalQuantity: Float!
+	itemsTotalPrice: Float!
+	shippingTotalPrice: Float!
+	returned: Float
+	totalPrice: Float!
+}
+
+type OrderItem {
+	id: ID!
+	product: String
+	title: String!
+	pricing: ProductPricing!
+	applyDiscount: Boolean!
+	condition: ProductCondition!
+	status: OrderItemStatus!
+	slug: String!
+	trackingNumber: String
+	imageUrl: String
+	imagePlaceholder: String
+	freeShipping: Boolean!
+	invoice: Invoice!
+}
+
+type Shipment {
+	id: ID!
+	orderItems: [OrderItem!]!
+	status: ShipmentStatus!
+}
+
+enum PaymentMethod {
+	paymentCard
+}
+
+type PaymentCardSummary {
+	type: CardType!
+	brand: CardBrand!
+	snippet: String!
+}
+
+type OrderPaymentMethod {
+	name: PaymentMethod!
+	card: PaymentCardSummary
+}
+
+type Order {
+	id: ID!
+	shippingAddress: UserAddress!
+	shipments: [Shipment!]!
+	paymentMethod: OrderPaymentMethod!
+	invoice: Invoice!
+	createdAt: DateScalar!
+	updatedAt: DateScalar!
+}
+
+type OrderResult {
+	order: Order!
+	cart: Cart!
+}
+
+union PlaceOrderResult = OrderResult | GeneralError
+
+type OrdersResult {
+	total: Int!
+	orders: [Order]!
+}
+
+input OrdersOptions {
+	shipmentStatus: ShipmentStatus
+	skip: Int
+	limit: Int
+}

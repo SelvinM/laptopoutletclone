@@ -1,0 +1,105 @@
+fragment AdminFragment on Admin {
+  id
+  firstname
+  lastname
+  roles
+  email
+  createdAt
+  updatedAt
+}
+
+query Me {
+  me {
+    ...AdminFragment
+  }
+}
+
+query GetAdmins(
+  $skip: Int
+  $limit: Int
+  $sortCriteria: SortCriteria
+  $sortType: SortType
+) {
+  getAdmins(
+    options: {
+      skip: $skip
+      limit: $limit
+      sort: { criteria: $sortCriteria, type: $sortType }
+    }
+  ) {
+    total
+    admins {
+      ...AdminFragment
+    }
+  }
+}
+query GetAdmin($id: ID!) {
+  getAdmin(id: $id) {
+    ...AdminFragment
+  }
+}
+mutation CreateAdmin(
+  $firstname: String!
+  $lastname: String!
+  $email: String!
+  $password: String!
+  $roles: [Role!]!
+) {
+  createAdmin(
+    input: {
+      firstname: $firstname
+      lastname: $lastname
+      email: $email
+      password: $password
+      roles: $roles
+    }
+  ) {
+    ... on Admin {
+      ...AdminFragment
+    }
+    ... on GeneralError {
+      message
+    }
+  }
+}
+mutation UpdateAdmin(
+  $id: ID!
+  $firstname: String!
+  $lastname: String!
+  $email: String!
+  $roles: [Role!]!
+) {
+  updateAdmin(
+    input: {
+      id: $id
+      firstname: $firstname
+      lastname: $lastname
+      email: $email
+      roles: $roles
+    }
+  ) {
+    ... on Admin {
+      ...AdminFragment
+    }
+    ... on GeneralError {
+      message
+    }
+  }
+}
+mutation LoginAdmin($email: String!, $password: String!) {
+  loginAdmin(input: { email: $email, password: $password }) {
+    ... on Admin {
+      ...AdminFragment
+    }
+    ... on GeneralError {
+      message
+    }
+  }
+}
+
+mutation LogoutAdmin {
+  logoutAdmin
+}
+mutation DeleteAdmin($id: ID!) {
+  deleteAdmin(id: $id)
+}

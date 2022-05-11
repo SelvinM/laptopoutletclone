@@ -1,0 +1,16 @@
+{
+	"name": "@laptopoutlet-packages/constants",
+	"version": "1.0.0",
+	"license": "ISC",
+	"private": true,
+	"scripts": {
+		"deps:check": "npx npm-check-updates --dep prod,dev,optional",
+		"deps:update": "npx npm-check-updates --dep prod,dev,optional -u",
+		"typecheck": "tsc -p ./ --noEmit",
+		"clean": "rimraf --no-glob ./.next ./out ./cache"
+	},
+	"devDependencies": {
+		"typescript": "^4.5.2",
+		"@laptopoutlet-packages/types": "*"
+	}
+}

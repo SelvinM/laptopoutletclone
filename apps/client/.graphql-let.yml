@@ -1,0 +1,7 @@
+schema: "**/*.graphqls"
+documents: "**/*.graphql"
+plugins:
+  - typescript-operations
+  - typescript-react-apollo
+  - typescript-resolvers
+cacheDir: .cache

@@ -1,0 +1,129 @@
+fragment CategoryFragment on Category {
+  id
+  name {
+    es
+    en
+  }
+  description {
+    es
+    en
+  }
+  imageUrl
+  hasChildren
+  showInMenu
+  isOptional
+  createdAt
+  updatedAt
+}
+
+mutation CreateCategory(
+  $nameEs: String!
+  $nameEn: String
+  $descriptionEs: String!
+  $descriptionEn: String
+  $image: Upload
+  $id: ID!
+  $showInMenu: Boolean
+  $parent: ID
+) {
+  createCategory(
+    input: {
+      name: { es: $nameEs, en: $nameEn }
+      description: { es: $descriptionEs, en: $descriptionEn }
+      id: $id
+      showInMenu: $showInMenu
+      image: $image
+      parent: $parent
+    }
+  ) {
+    ... on Category {
+      ...CategoryFragment
+    }
+    ... on GeneralError {
+      message
+    }
+  }
+}
+
+mutation UpdateCategory(
+  $nameEs: String!
+  $nameEn: String
+  $descriptionEs: String!
+  $descriptionEn: String
+  $showInMenu: Boolean!
+  $id: ID!
+) {
+  updateCategory(
+    input: {
+      name: { es: $nameEs, en: $nameEn }
+      description: { es: $descriptionEs, en: $descriptionEn }
+      showInMenu: $showInMenu
+      id: $id
+    }
+  ) {
+    ... on Category {
+      ...CategoryFragment
+    }
+    ... on GeneralError {
+      message
+    }
+  }
+}
+
+mutation UpdateCategoryImage($id: ID!, $image: Upload!) {
+  updateCategoryImage(input: { id: $id, image: $image }) {
+    ... on Category {
+      ...CategoryFragment
+    }
+    ... on GeneralError {
+      message
+    }
+  }
+}
+
+mutation DeleteCategoryImage($id: ID!) {
+  deleteCategoryImage(id: $id) {
+    ... on Category {
+      ...CategoryFragment
+    }
+    ... on GeneralError {
+      message
+    }
+  }
+}
+
+mutation DeleteCategory($id: ID!) {
+  deleteCategory(id: $id)
+}
+
+query GetCategories {
+  getCategories {
+    ...CategoryFragment
+    children {
+      ...CategoryFragment
+      children {
+        ...CategoryFragment
+        children {
+          ...CategoryFragment
+          children {
+            ...CategoryFragment
+            children {
+              ...CategoryFragment
+              children {
+                ...CategoryFragment
+                children {
+                  ...CategoryFragment
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+query GetCategory($id: ID!) {
+  getCategory(id: $id) {
+    ...CategoryFragment
+  }
+}

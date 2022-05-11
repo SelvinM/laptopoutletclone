@@ -1,0 +1,57 @@
+fragment CancellationFragment on Cancellation {
+	id
+	user {
+		id
+		name
+		surname
+		email
+		phone
+	}
+	order
+	shipmentid
+	orderItems {
+		id
+		product
+		pricing {
+			price
+			discountPrice
+			shipping
+		}
+		title {
+			en
+			es
+		}
+		applyDiscount
+		condition
+		status
+		trackingNumber
+		imageUrl
+		imagePlaceholder
+		freeShipping
+		invoice {
+			totalQuantity
+			itemsTotalPrice
+			shippingTotalPrice
+			returned
+			totalPrice
+		}
+	}
+	cancelledBy
+	createdAt
+	updatedAt
+}
+
+query GetCancellations($options: GeneralQueryOptions) {
+	getCancellations(options: $options) {
+		cancellations {
+			...CancellationFragment
+		}
+		total
+	}
+}
+
+query GetCancellation($id: ID!) {
+	getCancellation(id: $id) {
+		...CancellationFragment
+	}
+}

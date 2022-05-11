@@ -1,0 +1,109 @@
+enum ProductCondition {
+	new
+	openBox
+	likeNew
+	refurbished
+	used
+	forParts
+}
+enum ProductType {
+	ComputerProduct
+	UndefinedProduct
+}
+
+enum ProductSort {
+	bestMatch
+	newArrivals
+	priceDesc
+	priceAsc
+	brandDesc
+	brandAsc
+}
+
+input ProductsOptions {
+	skip: Int
+	limit: Int
+	getTotal: Boolean
+	getFacets: Boolean
+	sort: ProductSort
+	minPrice: Float
+	maxPrice: Float
+	applyDiscount: Boolean
+	freeShipping: Boolean
+	categories: [ID]
+	type: [ProductType]
+	search: String
+	excludeItem: ID
+	brand: [String]
+	condition: [ProductCondition]
+	screenSize: [String]
+	hdd: [String]
+	ssd: [String]
+	ram: [String]
+	graphicsProcessor: [String]
+	processor: [String]
+}
+
+type ProductListing {
+	longTitle: String!
+	shortTitle: String!
+	description: String!
+}
+
+type ProductManufacturer {
+	brand: String
+	model: String
+}
+
+type ProductImage {
+	url: String!
+	filename: String!
+	placeholder: String
+}
+
+type ProductPricing {
+	price: Float!
+	discountPrice: Float!
+	shipping: Float!
+}
+
+interface Product {
+	id: ID!
+	listing: ProductListing!
+	images: [ProductImage!]
+	type: ProductType!
+	list: Boolean!
+	slug: String!
+	applyDiscount: Boolean!
+	freeShipping: Boolean!
+	manufacturer: ProductManufacturer
+	pricing: ProductPricing!
+	condition: ProductCondition!
+	categories: [Category]
+	quantity: Int!
+	createdAt: DateScalar!
+	updatedAt: DateScalar!
+}
+type Facet {
+	title: String
+	count: Int!
+}
+
+type ProductFacets {
+	applyDiscount: [Facet]!
+	freeShipping: [Facet]!
+	brand: [Facet]!
+	condition: [Facet]!
+	screenSize: [Facet]!
+	hdd: [Facet]!
+	ssd: [Facet]!
+	ram: [Facet]!
+	graphicsProcessor: [Facet]!
+	processor: [Facet]!
+}
+
+type ProductsResult {
+	total: Int
+	facets: ProductFacets
+	products: [Product]!
+}

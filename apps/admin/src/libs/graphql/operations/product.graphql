@@ -1,0 +1,391 @@
+fragment ProductFragment on Product {
+	id
+	listing {
+		longTitle {
+			en
+			es
+		}
+		shortTitle {
+			en
+			es
+		}
+		description {
+			en
+			es
+		}
+	}
+	manufacturer {
+		brand
+		model
+	}
+	pricing {
+		price
+		discountPrice
+		shipping
+	}
+	retailCost
+	condition
+	list
+	type
+	slug
+	images {
+		url
+		filename
+	}
+	applyDiscount
+	freeShipping
+	categories {
+		...CategoryFragment
+	}
+	quantity
+	createdAt
+	updatedAt
+}
+fragment ComputerProductFragment on ComputerProduct {
+	details {
+		model
+		os
+		screenSize
+		hdd
+		ssd
+		ram
+		graphicsProcessor
+		processor
+	}
+}
+
+mutation CreateUndefinedProduct(
+	$id: ID!
+	$longTitleEn: String
+	$longTitleEs: String!
+	$shortTitleEn: String
+	$shortTitleEs: String!
+	$descriptionEn: String
+	$descriptionEs: String!
+	$brand: String
+	$modelNumber: String
+	$price: Float!
+	$images: [Upload]
+	$discountPrice: Float!
+	$shipping: Float!
+	$condition: ProductCondition!
+	$list: Boolean!
+	$applyDiscount: Boolean!
+	$freeShipping: Boolean!
+	$categories: [ID]!
+	$quantity: Int!
+) {
+	createUndefinedProduct(
+		input: {
+			id: $id
+			listing: {
+				longTitle: { en: $longTitleEn, es: $longTitleEs }
+				shortTitle: { en: $shortTitleEn, es: $shortTitleEs }
+				description: { en: $descriptionEn, es: $descriptionEs }
+			}
+			manufacturer: { brand: $brand, model: $modelNumber }
+			pricing: {
+				price: $price
+				discountPrice: $discountPrice
+				shipping: $shipping
+			}
+			condition: $condition
+			images: $images
+			list: $list
+			applyDiscount: $applyDiscount
+			freeShipping: $freeShipping
+			categories: $categories
+			quantity: $quantity
+		}
+	) {
+		...ProductFragment
+	}
+}
+
+query VerifyIdAvailability($id: ID!) {
+	verifyIdAvailability(id: $id)
+}
+
+mutation UpdateUndefinedProduct(
+	$id: ID!
+	$longTitleEn: String
+	$longTitleEs: String!
+	$shortTitleEn: String
+	$shortTitleEs: String!
+	$descriptionEn: String
+	$descriptionEs: String!
+	$brand: String
+	$modelNumber: String
+	$price: Float!
+	$discountPrice: Float!
+	$shipping: Float!
+	$condition: ProductCondition!
+	$list: Boolean!
+	$applyDiscount: Boolean!
+	$freeShipping: Boolean!
+	$categories: [ID]!
+	$quantity: Int!
+) {
+	updateUndefinedProduct(
+		input: {
+			id: $id
+			listing: {
+				longTitle: { en: $longTitleEn, es: $longTitleEs }
+				shortTitle: { en: $shortTitleEn, es: $shortTitleEs }
+				description: { en: $descriptionEn, es: $descriptionEs }
+			}
+			manufacturer: { brand: $brand, model: $modelNumber }
+			pricing: {
+				price: $price
+				discountPrice: $discountPrice
+				shipping: $shipping
+			}
+			condition: $condition
+			list: $list
+			applyDiscount: $applyDiscount
+			freeShipping: $freeShipping
+			categories: $categories
+			quantity: $quantity
+		}
+	) {
+		...ProductFragment
+	}
+}
+mutation CreateComputerProduct(
+	$id: ID!
+	$longTitleEn: String
+	$longTitleEs: String!
+	$shortTitleEn: String
+	$shortTitleEs: String!
+	$descriptionEn: String
+	$descriptionEs: String!
+	$brand: String
+	$modelNumber: String
+	$price: Float!
+	$discountPrice: Float!
+	$shipping: Float!
+	$images: [Upload]
+	$condition: ProductCondition!
+	$list: Boolean!
+	$applyDiscount: Boolean!
+	$freeShipping: Boolean!
+	$categories: [ID]!
+	$quantity: Int!
+	$modelName: String
+	$operatingSystem: String
+	$screenSize: String
+	$hdd: String
+	$ssd: String
+	$ram: String
+	$graphicsProcessor: String
+	$processor: String
+) {
+	createComputerProduct(
+		input: {
+			id: $id
+			listing: {
+				longTitle: { en: $longTitleEn, es: $longTitleEs }
+				shortTitle: { en: $shortTitleEn, es: $shortTitleEs }
+				description: { en: $descriptionEn, es: $descriptionEs }
+			}
+			manufacturer: { brand: $brand, model: $modelNumber }
+			pricing: {
+				price: $price
+				discountPrice: $discountPrice
+				shipping: $shipping
+			}
+			condition: $condition
+			list: $list
+			applyDiscount: $applyDiscount
+			freeShipping: $freeShipping
+			categories: $categories
+			images: $images
+			quantity: $quantity
+			details: {
+				model: $modelName
+				os: $operatingSystem
+				screenSize: $screenSize
+				hdd: $hdd
+				ssd: $ssd
+				ram: $ram
+				graphicsProcessor: $graphicsProcessor
+				processor: $processor
+			}
+		}
+	) {
+		...ProductFragment
+		...ComputerProductFragment
+	}
+}
+
+mutation UpdateComputerProduct(
+	$id: ID!
+	$longTitleEn: String
+	$longTitleEs: String!
+	$shortTitleEn: String
+	$shortTitleEs: String!
+	$descriptionEn: String
+	$descriptionEs: String!
+	$brand: String
+	$modelNumber: String
+	$price: Float!
+	$discountPrice: Float!
+	$shipping: Float!
+	$condition: ProductCondition!
+	$list: Boolean!
+	$applyDiscount: Boolean!
+	$freeShipping: Boolean!
+	$categories: [ID]!
+	$quantity: Int!
+	$modelName: String
+	$operatingSystem: String
+	$screenSize: String
+	$hdd: String
+	$ssd: String
+	$ram: String
+	$graphicsProcessor: String
+	$processor: String
+) {
+	updateComputerProduct(
+		input: {
+			id: $id
+			listing: {
+				longTitle: { en: $longTitleEn, es: $longTitleEs }
+				shortTitle: { en: $shortTitleEn, es: $shortTitleEs }
+				description: { en: $descriptionEn, es: $descriptionEs }
+			}
+			manufacturer: { brand: $brand, model: $modelNumber }
+			pricing: {
+				price: $price
+				discountPrice: $discountPrice
+				shipping: $shipping
+			}
+			condition: $condition
+			list: $list
+			applyDiscount: $applyDiscount
+			freeShipping: $freeShipping
+			categories: $categories
+			quantity: $quantity
+			details: {
+				model: $modelName
+				os: $operatingSystem
+				screenSize: $screenSize
+				hdd: $hdd
+				ssd: $ssd
+				ram: $ram
+				graphicsProcessor: $graphicsProcessor
+				processor: $processor
+			}
+		}
+	) {
+		...ProductFragment
+		...ComputerProductFragment
+	}
+}
+
+query GetProducts(
+	$skip: Int
+	$limit: Int
+	$sortCriteria: SortCriteria
+	$sortType: SortType
+	$list: Boolean
+	$applyDiscount: Boolean
+	$freeShipping: Boolean
+	$type: [ProductType]
+	$condition: [ProductCondition]
+	$categories: [ID]
+	$search: String
+	$brand: [String]
+) {
+	getProducts(
+		options: {
+			skip: $skip
+			limit: $limit
+			sort: { criteria: $sortCriteria, type: $sortType }
+			list: $list
+			applyDiscount: $applyDiscount
+			freeShipping: $freeShipping
+			categories: $categories
+			type: $type
+			condition: $condition
+			search: $search
+			brand: $brand
+		}
+	) {
+		total
+		products {
+			...ProductFragment
+			... on ComputerProduct {
+				...ComputerProductFragment
+			}
+		}
+	}
+}
+
+query GetProduct($id: ID!) {
+	getProduct(id: $id) {
+		...ProductFragment
+		... on ComputerProduct {
+			...ComputerProductFragment
+		}
+	}
+}
+
+mutation DeleteProduct($id: ID!) {
+	deleteProduct(id: $id)
+}
+
+query GetDistinctBrands {
+	getDistinctBrands
+}
+
+query GetDistinctProductDetails($type: ProductType!) {
+	getDistinctProductDetails(type: $type) {
+		... on DistinctComputerProductDetails {
+			model
+			os
+			screenSize
+			hdd
+			ssd
+			ram
+			graphicsProcessor
+			processor
+		}
+	}
+}
+
+mutation AddProductImages($id: ID!, $images: [Upload!]!) {
+	addProductImages(input: { id: $id, images: $images }) {
+		...ProductFragment
+		... on ComputerProduct {
+			...ComputerProductFragment
+		}
+	}
+}
+
+mutation DeleteProductImage($id: ID!, $filename: String!) {
+	deleteProductImage(input: { id: $id, filename: $filename }) {
+		...ProductFragment
+		... on ComputerProduct {
+			...ComputerProductFragment
+		}
+	}
+}
+
+fragment CategoryFragment on Category {
+	id
+	name {
+		es
+		en
+	}
+	description {
+		es
+		en
+	}
+	imageUrl
+	hasChildren
+	showInMenu
+	isOptional
+	createdAt
+	updatedAt
+}

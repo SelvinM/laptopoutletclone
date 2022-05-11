@@ -1,0 +1,106 @@
+enum ProductCondition {
+	new
+	openBox
+	likeNew
+	refurbished
+	used
+	forParts
+}
+enum ProductType {
+	ComputerProduct
+	UndefinedProduct
+}
+
+input ProductsQueryOptions {
+	skip: Int
+	limit: Int
+	sort: Sort
+	list: Boolean
+	applyDiscount: Boolean
+	freeShipping: Boolean
+	categories: [ID]
+	type: [ProductType]
+	condition: [ProductCondition]
+	search: String
+	brand: [String]
+}
+
+type ProductListing {
+	longTitle: TranslationObject!
+	shortTitle: TranslationObject!
+	description: TranslationObject!
+}
+
+input ProductListingInput {
+	longTitle: TranslationObjectInput!
+	shortTitle: TranslationObjectInput!
+	description: TranslationObjectInput!
+}
+
+type ProductManufacturer {
+	brand: String
+	model: String
+}
+
+input ProductManufacturerInput {
+	brand: String
+	model: String
+}
+
+type ProductImage {
+	url: String!
+	filename: String!
+	placeholder: String
+}
+
+input ProductImageInput {
+	url: String!
+	filename: String!
+}
+
+type ProductPricing {
+	price: Float!
+	discountPrice: Float!
+	shipping: Float!
+}
+
+input ProductPricingInput {
+	price: Float!
+	discountPrice: Float!
+	shipping: Float!
+}
+
+interface Product {
+	id: ID!
+	listing: ProductListing!
+	images: [ProductImage!]
+	type: ProductType!
+	slug: String!
+	manufacturer: ProductManufacturer
+	pricing: ProductPricing!
+	retailCost: Float
+	condition: ProductCondition!
+	list: Boolean!
+	applyDiscount: Boolean!
+	freeShipping: Boolean!
+	categories: [Category]
+	quantity: Int!
+	createdAt: DateScalar!
+	updatedAt: DateScalar
+}
+
+input AddProductImagesInput {
+	id: ID!
+	images: [Upload!]!
+}
+
+input DeleteProductImageInput {
+	id: ID!
+	filename: String!
+}
+type ProductsResult {
+	total: Int!
+	products: [Product]!
+}
+
+union DistinctProductDetails = DistinctComputerProductDetails
